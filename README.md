@@ -2,7 +2,6 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.2-green.svg)](https://www.djangoproject.com/)
-[![Tests](https://github.com/Alexandr-mailru/ostratki-uzhin/actions/workflows/ci.yml/badge.svg)](https://github.com/Alexandr-mailru/ostratki-uzhin/actions)
 [![Live Demo](https://img.shields.io/badge/demo-on_Render-46a3f3.svg)](https://ostratki-uzhin.onrender.com/)
 
 Демо-сервис «что приготовить из того, что есть в холодильнике». Проект портфолио на Django.
