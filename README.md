@@ -2,11 +2,9 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.2-green.svg)](https://www.djangoproject.com/)
-[![Live Demo](https://img.shields.io/badge/demo-on_Render-46a3f3.svg)](https://ostratki-uzhin.onrender.com/)
 
 Демо-сервис «что приготовить из того, что есть в холодильнике». Проект портфолио на Django.
 
-**Live demo:** https://ostratki-uzhin.onrender.com  
 **Репозиторий:** https://github.com/Alexandr-mailru/ostratki-uzhin
 
 ![Главный экран — выбор продуктов](docs/screenshots/home.png)
@@ -72,7 +70,7 @@ python manage.py runserver
 
 1. Нажмите кнопку выше или откройте [Render Dashboard](https://dashboard.render.com/) → **New** → **Blueprint** → репозиторий `ostratki-uzhin`.
 2. При необходимости добавьте `SPOONACULAR_API_KEY` в Environment.
-3. После деплоя обновите `CSRF_TRUSTED_ORIGINS` и `ALLOWED_HOSTS` под ваш URL (например `https://ostratki-uzhin.onrender.com`).
+3. После деплоя обновите `CSRF_TRUSTED_ORIGINS` и `ALLOWED_HOSTS` под URL вашего сервиса.
 
 ## Правовая информация
 
