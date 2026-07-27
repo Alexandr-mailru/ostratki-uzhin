@@ -68,10 +68,11 @@ python manage.py runserver
 
 ## Деплой на Render
 
-1. Форкните репозиторий или подключите свой GitHub.
-2. [Render Dashboard](https://dashboard.render.com/) → **New** → **Blueprint** → укажите `render.yaml`.
-3. При необходимости добавьте `SPOONACULAR_API_KEY` в Environment.
-4. После деплоя обновите `CSRF_TRUSTED_ORIGINS` и `ALLOWED_HOSTS` под ваш URL.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Alexandr-mailru/ostratki-uzhin)
+
+1. Нажмите кнопку выше или откройте [Render Dashboard](https://dashboard.render.com/) → **New** → **Blueprint** → репозиторий `ostratki-uzhin`.
+2. При необходимости добавьте `SPOONACULAR_API_KEY` в Environment.
+3. После деплоя обновите `CSRF_TRUSTED_ORIGINS` и `ALLOWED_HOSTS` под ваш URL (например `https://ostratki-uzhin.onrender.com`).
 
 ## Правовая информация
 
