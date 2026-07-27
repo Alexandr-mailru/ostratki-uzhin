@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container recipe-detail">
+    <a href="{% url 'recipe_search' %}" class="back-link">← В холодильник</a>
+
+    {% if recipe %}
+    <article class="recipe-detail__hero">
+        <img src="{{ recipe.image }}" alt="{{ recipe.title }}"
+             onerror="this.src='https://placehold.co/800x400/d8f3dc/2d6a4f?text=🍽️'">
+        <div class="recipe-detail__body">
+            <span class="badge rounded-pill text-bg-secondary mb-2">Spoonacular</span>
+            <h1>{{ recipe.title }}</h1>
+            {% if recipe.readyInMinutes %}
+            <p class="recipe-meta">~{{ recipe.readyInMinutes }} мин</p>
+            {% endif %}
+
+            <h2 class="h5 mt-4">Ингредиенты</h2>
+            <div class="ingredient-chips">
+                {% for ing in recipe.extendedIngredients %}
+                <span class="ingredient-chip">{{ ing.original }}</span>
+                {% endfor %}
+            </div>
+
+            <h2 class="h5">Приготовление</h2>
+            <div class="mt-2 recipe-instructions">
+                {% if recipe.instructions %}
+                {{ recipe.instructions|safe }}
+                {% else %}
+                <p class="text-muted">См. <a href="{{ recipe.sourceUrl }}" target="_blank" rel="noopener">оригинальный рецепт</a>.</p>
+                {% endif %}
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <button class="btn btn-outline-danger rounded-pill favorite-btn" data-recipe-id="{{ recipe_id }}">
+                    {% if is_favorite %}♥ В избранном{% else %}♡ В избранное{% endif %}
+                </button>
+                <a href="{% url 'recipe_pdf' recipe_id %}" class="btn btn-outline-secondary rounded-pill" target="_blank" rel="noopener">PDF</a>
+                {% if recipe.sourceUrl %}
+                <a href="{{ recipe.sourceUrl }}" class="btn btn-outline-secondary rounded-pill" target="_blank" rel="noopener">Источник</a>
+                {% endif %}
+            </div>
+
+            <p class="small text-muted mt-4 mb-0">
+                Контент предоставлен <a href="https://spoonacular.com/food-api" target="_blank" rel="noopener">Spoonacular API</a>.
+                <a href="{% url 'copyright_info' %}">Авторские права</a>
+            </p>
+        </div>
+    </article>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state__icon">😕</div>
+        <p>Рецепт не найден</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% include 'recipes/_favorite_js.html' %}
+{% endblock %}

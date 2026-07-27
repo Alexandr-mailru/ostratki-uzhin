@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Холодильник — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="page-hero">
+        <h1>Что приготовить сегодня?</h1>
+        <p>Отметьте продукты — подберём блюда по степени совпадения: от быстрого завтрака до сложного ужина.</p>
+    </section>
+
+    {% if show_api_hint %}
+    <p class="hint-dev">Режим разработки: без ключа Spoonacular работает только локальная база из 31 рецепта.</p>
+    {% endif %}
+
+    <form method="post" id="search-form">
+        {% csrf_token %}
+        {{ form.ingredients }}
+        <div class="kitchen-layout">
+            <aside class="fridge-panel">
+                <div class="fridge-panel__title">
+                    <span>🧊 Ваш холодильник</span>
+                    <span class="fridge-count" id="fridge-count">0</span>
+                </div>
+                <div class="fridge-tags" id="selected-ingredients"></div>
+                <p class="fridge-empty" id="fridge-empty">Нажмите на продукты справа</p>
+
+                <p class="small text-muted mb-2">Быстрые наборы</p>
+                <div class="quick-chips" id="quick-chips">
+                    <button type="button" class="quick-chip" data-preset="яйца, молоко, сыр">🍳 Завтрак</button>
+                    <button type="button" class="quick-chip" data-preset="курица, картофель, лук">🍗 Ужин</button>
+                    <button type="button" class="quick-chip" data-preset="макароны, сыр, сливочное масло">🍝 Быстро</button>
+                    <button type="button" class="quick-chip" data-preset="овсянка, бананы, мёд">🥣 Каша</button>
+                </div>
+
+                <label class="form-label small mb-1" for="id_max_time">{{ form.max_time.label }}</label>
+                {{ form.max_time }}
+
+                <div class="d-grid gap-2 mt-3">
+                    <button id="submit-btn" type="submit" class="btn btn-green" disabled>
+                        Найти рецепты
+                    </button>
+                    {% if request.session.fridge_ingredients %}
+                    <a href="{% url 'clear_fridge' %}" class="btn btn-outline-secondary btn-sm rounded-pill">Очистить</a>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <section class="products-panel">
+                <div class="toolbar">
+                    <input type="text" id="ingredient-search" class="search-field"
+                           placeholder="Поиск продукта…" autocomplete="off">
+                </div>
+
+                <div class="category-tabs" id="category-tabs">
+                    <button type="button" class="cat-tab is-active" data-cat="all">Все</button>
+                    {% for category in ingredient_categories.keys %}
+                    <button type="button" class="cat-tab" data-cat="cat-{{ forloop.counter0 }}">{{ category }}</button>
+                    {% endfor %}
+                </div>
+
+                {% for category, products in ingredient_categories.items %}
+                <div class="ingredient-category mb-3" id="cat-{{ forloop.counter0 }}" data-category-name="{{ category }}">
+                    <h3 class="h6 text-muted mb-2">{{ category }}</h3>
+                    <div class="products-grid">
+                        {% for product in products %}
+                        <div class="product-card" data-ingredient="{{ product.name }}" data-category="cat-{{ forloop.parentloop.counter0 }}">
+                            <div class="product-card__img">
+                                <img src="{{ product.icon_url }}" alt="{{ product.name }}" loading="lazy" decoding="async" width="64" height="64">
+                            </div>
+                            <span>{{ product.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </form>
+
+    <div class="loading-overlay d-none" id="loading">
+        <div class="spinner-border text-success" role="status"></div>
+        <p class="mt-2 mb-0">Подбираем рецепты…</p>
+    </div>
+
+    {% if results %}
+    <section class="results-section" id="results-section">
+        <div class="results-toolbar">
+            <h2 class="h4 mb-0">Найдено: <span id="results-count">{{ results|length }}</span></h2>
+            <div class="results-filters">
+                <button type="button" class="filter-btn is-active" data-filter="all">Все</button>
+                <button type="button" class="filter-btn" data-filter="complete">Всё есть</button>
+                <button type="button" class="filter-btn" data-filter="local">Моя база</button>
+                <button type="button" class="filter-btn" data-filter="quick">До 30 мин</button>
+            </div>
+        </div>
+        <div class="recipe-grid" id="recipes-container"></div>
+    </section>
+    {% elif request.method == 'POST' %}
+    <div class="empty-state mt-4">
+        <div class="empty-state__icon">🤷</div>
+        <p>Ничего не нашли. Попробуйте другой набор продуктов.</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="mobile-bar" id="mobile-bar">
+    <button type="button" class="btn btn-green w-100" id="mobile-search-btn" disabled>Найти рецепты</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.APP_DATA = {
+    recipes: {{ results_json|safe }},
+    favorites: {{ favorites_json|safe }},
+    csrf: '{{ csrf_token }}',
+    hasResults: {{ results|length|yesno:"true,false" }}
+};
+</script>
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

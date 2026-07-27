@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.12"/>
+    </linearGradient>
+    <filter id="s" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.8" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#E8EAF6"/>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#g)"/>
+  <ellipse cx="32" cy="34" rx="18" ry="9" fill="#5C6BC0"/><path d="M14 34 L22 30 L22 38 Z" fill="#3949AB"/><path d="M26 30 Q32 26 38 30" stroke="#C5CAE9" stroke-width="2" fill="none"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="14.5" fill="none" stroke="#ffffff" stroke-opacity="0.45"/>
+</svg>

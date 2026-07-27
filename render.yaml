@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: ostratki-uzhin
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn fridge_recipes.wsgi --log-file -
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: localhost,127.0.0.1,.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://ostratki-uzhin.onrender.com
+      - key: SPOONACULAR_API_KEY
+        sync: false

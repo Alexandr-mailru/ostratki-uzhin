@@ -1,0 +1,25 @@
+document.querySelectorAll('.favorite-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const id = String(this.dataset.recipeId);
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+        fetch(`/favorite/${id}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': csrf },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.is_favorite) {
+                this.innerHTML = '♥ В избранном';
+                this.classList.add('is-on');
+            } else {
+                this.innerHTML = '♡ В избранное';
+                this.classList.remove('is-on');
+                const card = this.closest('.recipe-card');
+                if (card && window.location.pathname.includes('favorites')) {
+                    card.style.opacity = '0';
+                    setTimeout(() => card.remove(), 200);
+                }
+            }
+        });
+    });
+});

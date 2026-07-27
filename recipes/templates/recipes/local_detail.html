@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container recipe-detail">
+    <a href="{% url 'recipe_search' %}" class="back-link">← В холодильник</a>
+
+    <article class="recipe-detail__hero">
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}">
+        <div class="recipe-detail__body">
+            <span class="badge rounded-pill text-bg-success mb-2">Моя база</span>
+            <h1>{{ recipe.title }}</h1>
+            <p class="recipe-meta">
+                ~{{ recipe.prep_time|default:30 }} мин · {{ recipe.get_category_display }}
+                · {{ recipe.difficulty_label }} · {{ recipe.servings }} порц.
+            </p>
+
+            <h2 class="h5 mt-4">Ингредиенты</h2>
+            <div class="ingredient-chips">
+                {% for ing in recipe.ingredients_list %}
+                <span class="ingredient-chip">{{ ing }}</span>
+                {% endfor %}
+            </div>
+
+            <h2 class="h5">Приготовление</h2>
+            <ol class="steps-list">
+                {% for step in recipe.instruction_steps %}
+                <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <button class="btn btn-outline-danger rounded-pill favorite-btn" data-recipe-id="{{ recipe_id }}">
+                    {% if is_favorite %}♥ В избранном{% else %}♡ В избранное{% endif %}
+                </button>
+                <a href="{% url 'recipe_pdf' recipe_id %}" class="btn btn-outline-secondary rounded-pill" target="_blank" rel="noopener">PDF</a>
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% include 'recipes/_favorite_js.html' %}
+{% endblock %}

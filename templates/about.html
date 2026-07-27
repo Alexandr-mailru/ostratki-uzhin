@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}О проекте — {{ site_name }}{% endblock %}
+{% block content %}
+<div class="container legal">
+    <a href="{% url 'recipe_search' %}" class="back-link">← В холодильник</a>
+    <h1>О проекте</h1>
+    <p class="text-muted">«{{ site_name }}» — демо-сервис для портфолио: из продуктов в холодильнике подбираются рецепты.</p>
+
+    <h2>Как пользоваться</h2>
+    <ol>
+        <li>Отметьте продукты или выберите быстрый набор.</li>
+        <li>Нажмите «Найти рецепты» — сортировка по % совпадения.</li>
+        <li>Фильтруйте: «Всё есть», «До 30 мин», только локальная база.</li>
+        <li>Сохраняйте в избранное и скачивайте PDF.</li>
+    </ol>
+
+    <h2>Стек</h2>
+    <ul>
+        <li><strong>Backend:</strong> Python 3.12, Django 5.2, SQLite</li>
+        <li><strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap 5</li>
+        <li><strong>Интеграции:</strong> Spoonacular Food API, xhtml2pdf</li>
+        <li><strong>Деплой:</strong> Gunicorn, WhiteNoise, Render</li>
+    </ul>
+
+    <h2>База данных</h2>
+    <p>69 продуктов с фото и 31 рецепт на русском. Без API-ключа работает локальная база; с ключом Spoonacular — расширенный поиск.</p>
+    <p><code>python manage.py seed_catalog --cache-photos</code></p>
+
+    <h2>Исходный код</h2>
+    <p>
+        <a href="https://github.com/Alexandr-mailru/ostratki-uzhin" target="_blank" rel="noopener noreferrer">GitHub: Alexandr-mailru/ostratki-uzhin</a>
+    </p>
+</div>
+{% endblock %}

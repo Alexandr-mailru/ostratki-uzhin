@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Избранное — {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="page-hero">
+        <h1>Избранное</h1>
+        <p>Рецепты, которые вы сохранили — всегда под рукой.</p>
+    </section>
+
+    {% if recipes %}
+    <div class="recipe-grid">
+        {% for recipe in recipes %}
+        <article class="recipe-card">
+            <div class="recipe-card__img-wrap">
+                <img src="{{ recipe.image }}" alt="{{ recipe.title }}" loading="lazy"
+                     onerror="this.src='https://placehold.co/400x240/d8f3dc/2d6a4f?text=🍽️'">
+            </div>
+            <div class="recipe-card__body">
+                <h3 class="recipe-card__title">{{ recipe.title }}</h3>
+                <div class="recipe-card__actions">
+                    <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-green btn-sm">Открыть</a>
+                    <button type="button" class="btn btn-outline-secondary btn-sm fav-btn is-on favorite-btn" data-recipe-id="{{ recipe.id }}">♥</button>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state__icon">💔</div>
+        <p>Пока пусто. Найдите рецепт и нажмите ♥</p>
+        <a href="{% url 'recipe_search' %}" class="btn btn-green mt-2">К холодильнику</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% include 'recipes/_favorite_js.html' %}
+{% endblock %}
